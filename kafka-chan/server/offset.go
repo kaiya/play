@@ -5,9 +5,9 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/Kaiya/kafka-chan/kafkapb"
-	"github.com/Kaiya/kafka-chan/utils"
 	"github.com/hoveychen/kafka-go"
+	"github.com/kaiya/play/kafka-chan/kafkapb"
+	"github.com/kaiya/play/kafka-chan/utils"
 	"github.com/pkg/errors"
 	"gitlab.momoso.com/cm/inventory/data-processing/dataprocpb"
 	"gitlab.momoso.com/mms2/utils/kafkautil"

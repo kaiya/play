@@ -9,9 +9,9 @@ import (
 	"io"
 	"strings"
 
-	"github.com/Kaiya/kafka-chan/kafkapb"
 	lru "github.com/hashicorp/golang-lru"
 	"github.com/hoveychen/kafka-go"
+	"github.com/kaiya/play/kafka-chan/kafkapb"
 	"github.com/pkg/errors"
 	"gitlab.momoso.com/mms2/utils/kafkautil"
 	"gitlab.momoso.com/mms2/utils/lg"

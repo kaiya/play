@@ -8,9 +8,9 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/Kaiya/kafka-chan/kafkapb"
-	"github.com/Kaiya/kafka-chan/server"
 	"github.com/gorilla/mux"
+	"github.com/kaiya/play/kafka-chan/kafkapb"
+	"github.com/kaiya/play/kafka-chan/server"
 	"github.com/pkg/errors"
 )
 

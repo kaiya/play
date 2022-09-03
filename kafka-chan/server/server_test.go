@@ -5,8 +5,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Kaiya/kafka-chan/utils"
 	"github.com/hoveychen/kafka-go"
+	"github.com/kaiya/play/kafka-chan/utils"
 	"gitlab.momoso.com/mms2/utils/kafkautil"
 	"gitlab.momoso.com/mms2/utils/lg"
 )

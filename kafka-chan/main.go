@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/Kaiya/kafka-chan/kafkapb"
-	"github.com/Kaiya/kafka-chan/server"
-	"github.com/Kaiya/kafka-chan/web"
+	"github.com/kaiya/play/kafka-chan/kafkapb"
+	"github.com/kaiya/play/kafka-chan/server"
+	"github.com/kaiya/play/kafka-chan/web"
 	"gitlab.momoso.com/cm/kit/third_party/lg"
 	"gitlab.momoso.com/mms2/utils/flags"
 	"gitlab.momoso.com/mms2/utils/service"

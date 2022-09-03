@@ -1,4 +1,4 @@
-module github.com/kaiya/gorm
+module github.com/kaiya/play/gorm
 
 go 1.17
 

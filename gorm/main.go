@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/kaiya/gorm/tidb"
+	"github.com/kaiya/play/gorm/tidb"
 )
 
 func main() {

@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
-	"github.com/kaiya/todo/dao"
+	"github.com/kaiya/play/todo/dao"
 )
 
 var (
