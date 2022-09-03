@@ -1,0 +1,12 @@
+language: go
+
+go:
+  - 1.17.x
+  - 1.18.x
+env:
+  - GO111MODULE=on
+before_install:
+  - go get
+
+script:
+  - go test -cpu=1,2 -v -tags integration ./...
