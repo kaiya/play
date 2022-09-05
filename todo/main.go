@@ -33,6 +33,7 @@ func main() {
 	api := router.Group("/api/v1/todos")
 	{
 		api.POST("/", dao.CreateTodo)
+		api.POST("/bind", dao.BindCreate)
 		api.GET("/", dao.FetchAllTodo)
 		api.GET("/:id", dao.FetchSingleTodo)
 		api.PUT("/:id", dao.UpdateTodo)

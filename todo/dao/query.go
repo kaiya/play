@@ -5,7 +5,19 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
 )
+
+func BindCreate(c *gin.Context) {
+	_todo := new(todoModel)
+	err := c.MustBindWith(_todo, binding.JSON)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"data": "create with must bind with error", "err": err})
+		return
+	}
+	db.Save(_todo)
+	c.JSON(http.StatusCreated, gin.H{"status": http.StatusCreated, "message": "Todo item created successfully!", "resourceId": _todo.ID})
+}
 
 // 创建todo
 func CreateTodo(c *gin.Context) {
