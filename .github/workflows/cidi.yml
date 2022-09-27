@@ -67,3 +67,4 @@ jobs:
         repository: kaiya/todo
         tag_with_ref: true
         context: ./todo
+        dockerfile: ./todo/Dockerfile
