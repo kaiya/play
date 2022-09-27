@@ -66,3 +66,4 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
         repository: kaiya/todo
         tag_with_ref: true
+        context: ./todo
