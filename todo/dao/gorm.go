@@ -9,9 +9,9 @@ import (
 
 var db *gorm.DB
 
-func Init(sqlUser, sqlPass string) {
+func Init(sqlUser, sqlPass, sqlHost, sqlDb string, sqlPort int) {
 	var err error
-	db, err = gorm.Open(mysql.Open(fmt.Sprintf("%s:%s@tcp(gateway01.ap-northeast-1.prod.aws.tidbcloud.com:4000)/todo?parseTime=true", sqlUser, sqlPass)))
+	db, err = gorm.Open(mysql.Open(fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?parseTime=true", sqlUser, sqlPass, sqlHost, sqlPort, sqlDb)))
 	if err != nil {
 		panic(err)
 	}

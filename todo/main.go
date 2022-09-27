@@ -11,6 +11,9 @@ import (
 )
 
 var (
+	sqlHost = flag.String("sqlUser", "gateway01.ap-northeast-1.prod.aws.tidbcloud.com", "host for login mysql")
+	sqlPort = flag.Int("sqlPort", 4000, "port for  mysql")
+	sqlDb   = flag.String("sqlDb", "todo", "username for login mysql")
 	sqlUser = flag.String("sqlUser", "2XnQNnZnVfDF5Qq.root", "username for login mysql")
 	sqlPass = flag.String("sqlPass", "", "password for mysql")
 )
@@ -28,7 +31,7 @@ func main() {
 	if *sqlUser == "" || *sqlPass == "" {
 		panic("sqlPass is empty")
 	}
-	dao.Init(*sqlUser, *sqlPass)
+	dao.Init(*sqlUser, *sqlPass, *sqlHost, *sqlDb, *sqlPort)
 	router := gin.Default()
 	api := router.Group("/api/v1/todos")
 	{
