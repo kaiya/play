@@ -65,6 +65,6 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
         repository: kaiya/todo
-        tags: kaiya/todo:latest
+        tags: latest
         context: ./todo
         dockerfile: ./todo/Dockerfile
