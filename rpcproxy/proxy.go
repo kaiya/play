@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/golang/protobuf/jsonpb"
+	"github.com/jhump/protoreflect/desc"
 	"github.com/jhump/protoreflect/grpcreflect"
 	"gitlab.momoso.com/mms2/utils/lg"
 	"google.golang.org/grpc"
@@ -103,7 +104,7 @@ func (p *Proxy) handle(w http.ResponseWriter, r *http.Request) {
 	handler := grpcurl.NewDefaultEventHandler(&buf, desc, grpcurl.NewJSONFormatter(false, grpcurl.AnyResolverFromDescriptorSource(desc)), false)
 
 	start := time.Now()
-	err = grpcurl.InvokeRPC(ctx, getDescSource(ctx, backend), backend, fmt.Sprintf("%s.%s.%s", pkg, srv, method), headers, handler, newRequestSupplier(body))
+	err = grpcurl.InvokeRPC(ctx, desc, backend, fmt.Sprintf("%s.%s.%s", pkg, srv, method), headers, handler, newRequestSupplier(body))
 	if err != nil {
 		http.Error(w, fmt.Sprintf("invoke grpc error:%s", err), http.StatusInternalServerError)
 		return
@@ -115,4 +116,53 @@ func (p *Proxy) handle(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("content-type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(buf.Bytes())
+}
+
+// desc source impl cached wrapper
+type CacheDescSource struct {
+	source   grpcurl.DescriptorSource
+	services []string
+	descFDs  []*desc.FieldDescriptor
+	lock     sync.RWMutex
+	cache    map[string]interface{}
+}
+
+// ListServices returns a list of fully-qualified service names. It will be all services in a set of
+// descriptor files or the set of all services exposed by a gRPC server.
+func (cds *CacheDescSource) ListServices() ([]string, error) {
+	if len(cds.services) == 0 {
+		srvs, err := cds.source.ListServices()
+		if err != nil {
+			return cds.services, err
+		}
+		cds.lock.Lock()
+		cds.services = srvs
+		cds.lock.Unlock()
+	}
+	return cds.services, nil
+}
+
+// FindSymbol returns a descriptor for the given fully-qualified symbol name.
+func (cds *CacheDescSource) FindSymbol(fullyQualifiedName string) (desc.Descriptor, error) {
+	d, ok := cds.cache["descriptor"]
+	if !ok {
+		de, err := cds.FindSymbol(fullyQualifiedName)
+		if err != nil {
+			return nil, err
+		}
+		cds.cache["descriptor"] = de
+	}
+	return d.(desc.Descriptor), nil
+}
+
+// AllExtensionsForType returns all known extension fields that extend the given message type name.
+func (cds *CacheDescSource) AllExtensionsForType(typeName string) ([]*desc.FieldDescriptor, error) {
+	if len(cds.descFDs) == 0 {
+		fds, err := cds.source.AllExtensionsForType(typeName)
+		if err != nil {
+			return nil, err
+		}
+		cds.descFDs = fds
+	}
+	return cds.descFDs, nil
 }
